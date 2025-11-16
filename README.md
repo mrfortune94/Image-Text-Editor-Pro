@@ -91,6 +91,8 @@ A production-ready Android application for comprehensive image editing with adva
    adb install app/build/outputs/apk/debug/app-debug.apk
    ```
 
+> **⚠️ Build Issues?** If you encounter network or repository access errors, see [TROUBLESHOOTING_NETWORK.md](./TROUBLESHOOTING_NETWORK.md) for detailed solutions.
+
 ### Using GitHub Actions
 
 The project includes automated CI/CD with GitHub Actions:
