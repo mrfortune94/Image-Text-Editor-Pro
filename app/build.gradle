@@ -59,7 +59,7 @@ dependencies {
     implementation 'com.google.mlkit:text-recognition:16.0.0'
     
     // OpenCV for image processing and inpainting
-    implementation 'com.quickbirdstudios:opencv-android:4.5.3.0'
+    implementation 'org.opencv:opencv-android:4.5.3.0'
     
     // Image picker
     implementation 'androidx.activity:activity-result:1.2.0'
