@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Image Text Editor Pro</string>
+    
+    <!-- Main screen -->
+    <string name="no_image_selected">No image selected\nTap Open Image to get started</string>
+    <string name="image_preview">Image preview</string>
+    <string name="open_image">Open Image</string>
+    <string name="save_image">Save Image</string>
+    
+    <!-- Editing tools -->
+    <string name="editing_tools">Editing Tools</string>
+    <string name="crop">Crop</string>
+    <string name="filter">Filter</string>
+    <string name="detect_text">OCR</string>
+    <string name="draw">Draw</string>
+    <string name="sticker">Sticker</string>
+    <string name="adjust">Adjust</string>
+    
+    <!-- Permissions -->
+    <string name="permission_storage_rationale">Storage permission is needed to load and save images</string>
+    
+    <!-- Common -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="apply">Apply</string>
+</resources>
