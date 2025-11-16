@@ -86,7 +86,7 @@ class TextDetectionActivity : AppCompatActivity() {
             }
         } catch (e: Exception) {
             Toast.makeText(this, "Failed to load image: ${e.message}", Toast.LENGTH_SHORT).show()
-            binding.progressBar.visibility = android.view.View.GONE()
+            binding.progressBar.visibility = android.view.View.GONE
             finish()
         }
     }
