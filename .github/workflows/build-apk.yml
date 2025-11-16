@@ -1,4 +1,4 @@
-name: Android CI - Build APK
+name: Build Android APK
 
 on:
   push:
@@ -9,46 +9,39 @@ on:
 
 jobs:
   build:
+    name: Build APK
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: gradle
-    
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    
-    - name: Validate Gradle wrapper
-      uses: gradle/wrapper-validation-action@v1
-    
-    - name: Build debug APK
-      run: ./gradlew assembleDebug --stacktrace --no-daemon
-    
-    - name: Build release APK
-      run: ./gradlew assembleRelease --stacktrace --no-daemon
-      continue-on-error: true
-    
-    - name: Upload Debug APK
-      uses: actions/upload-artifact@v4
-      if: success() || failure()
-      with:
-        name: app-debug
-        path: app/build/outputs/apk/debug/app-debug.apk
-        retention-days: 30
-    
-    - name: Upload Release APK
-      uses: actions/upload-artifact@v4
-      if: success()
-      with:
-        name: app-release
-        path: app/build/outputs/apk/release/*.apk
-        retention-days: 30
-    
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Validate Gradle wrapper
+        run: ./gradlew wrapper --version
+
+      - name: Build Debug APK
+        run: ./gradlew clean assembleDebug --stacktrace
+
+      # If you also want a release build and it works without signing,
+      # uncomment the block below:
+      # - name: Build Release APK
+      #   run: ./gradlew assembleRelease --stacktrace
+
+      - name: Upload APK artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: image-text-editor-pro-apks
+          path: |
+            app/build/outputs/apk/debug/*.apk
+            app/build/outputs/apk/release/*.apk
+          if-no-files-found: warn
