@@ -61,7 +61,7 @@
     <color name="md_theme_dark_onSurfaceVariant">#CAC4D0</color>
     
     <color name="md_theme_dark_outline">#938F99</color>
-</resources>
-    
+
     <!-- Launcher icon background -->
     <color name="ic_launcher_background">#6750A4</color>
+</resources>
