@@ -47,7 +47,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="Detected text blocks are highlighted in red. Tap 'Remove All Text' to erase all detected text from the image."
+            android:text="@string/tap_box_to_edit"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             app:layout_constraintBottom_toTopOf="@+id/buttonLayout"
             app:layout_constraintEnd_toEndOf="parent"
