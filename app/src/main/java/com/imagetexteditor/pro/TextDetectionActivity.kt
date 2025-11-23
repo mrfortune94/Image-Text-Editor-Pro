@@ -271,9 +271,8 @@ class TextDetectionActivity : AppCompatActivity() {
             // Draw each line
             lines.forEach { line ->
                 if (line.isNotEmpty()) {
-                    // Calculate X position to center text (or align left)
-                    val textWidth = textPaint.measureText(line)
-                    val startX = boundingBox.left.toFloat()  // Left align
+                    // Left align text in the bounding box
+                    val startX = boundingBox.left.toFloat()
                     
                     // Make sure text fits in bounding box
                     if (startY <= boundingBox.bottom && startX >= boundingBox.left) {
