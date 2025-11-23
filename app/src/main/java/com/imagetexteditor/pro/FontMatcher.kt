@@ -8,6 +8,9 @@ import android.graphics.Typeface
  */
 object FontMatcher {
     
+    // Heuristic: font size is approximately 75% of bounding box height
+    private const val FONT_SIZE_RATIO = 0.75f
+    
     data class FontStyle(
         val typeface: Typeface,
         val size: Float,
@@ -53,15 +56,14 @@ object FontMatcher {
     
     /**
      * Estimates font size based on bounding box height.
-     * Uses a heuristic: font size is approximately 70-80% of bounding box height.
+     * Uses a heuristic: font size is approximately 75% of bounding box height.
      * 
      * @param boundingBoxHeight The height of the text bounding box
      * @return Estimated font size
      */
     fun estimateFontSize(boundingBoxHeight: Int): Float {
         // Font size is roughly 75% of bounding box height
-        // This is a heuristic that works reasonably well
-        val estimatedSize = boundingBoxHeight * 0.75f
+        val estimatedSize = boundingBoxHeight * FONT_SIZE_RATIO
         return estimatedSize.coerceIn(10f, 100f)
     }
     
