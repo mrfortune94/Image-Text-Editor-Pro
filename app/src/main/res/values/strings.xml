@@ -23,4 +23,9 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="apply">Apply</string>
+    
+    <!-- Text Detection -->
+    <string name="edit_text_title">Edit Text</string>
+    <string name="save">Save</string>
+    <string name="tap_box_to_edit">Tap a highlighted text box to edit its content</string>
 </resources>
