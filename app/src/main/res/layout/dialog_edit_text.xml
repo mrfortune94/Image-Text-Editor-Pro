@@ -10,7 +10,7 @@
         android:id="@+id/tvFontPreviewLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Font Preview:"
+        android:text="@string/font_preview_label"
         android:textAppearance="?attr/textAppearanceBodySmall"
         android:paddingBottom="8dp" />
 
@@ -18,7 +18,7 @@
         android:id="@+id/tvFontPreview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sample Text"
+        android:text="@string/sample_text"
         android:textSize="20sp"
         android:padding="8dp"
         android:background="@android:color/darker_gray"
@@ -28,7 +28,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Edit text"
+        android:hint="@string/edit_text_hint"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText

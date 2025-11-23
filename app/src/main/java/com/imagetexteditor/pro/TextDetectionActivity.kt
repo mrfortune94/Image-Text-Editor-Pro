@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.*
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -204,7 +205,7 @@ class TextDetectionActivity : AppCompatActivity() {
         fontPreview.text = textBlock.text
         
         // Update preview as user types
-        editText.addTextChangedListener(object : android.text.TextWatcher {
+        editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 fontPreview.text = s?.toString() ?: ""
