@@ -27,8 +27,10 @@
     <!-- Text Detection -->
     <string name="edit_text_title">Edit Text</string>
     <string name="save">Save</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="remove_all">Remove All</string>
     <string name="tap_box_to_edit">Tap a highlighted text box to edit its content</string>
-    <string name="font_preview_label">Font Preview:</string>
+    <string name="font_preview_label">Font Preview (auto-detected style):</string>
     <string name="sample_text">Sample Text</string>
     <string name="edit_text_hint">Edit text</string>
 </resources>
