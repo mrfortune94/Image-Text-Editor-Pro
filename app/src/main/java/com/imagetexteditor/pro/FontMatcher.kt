@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.Typeface
+import kotlin.math.abs
 
 /**
  * Utility class to match detected text properties to available system fonts.
@@ -19,6 +20,15 @@ object FontMatcher {
     
     // Stroke width threshold for detecting bold text
     private const val BOLD_STROKE_RATIO = 0.12f
+    
+    // Padding around text box for edge sampling
+    private const val EDGE_SAMPLE_PADDING = 5
+    
+    // Step size for sampling edge colors
+    private const val EDGE_SAMPLE_STEP = 3
+    
+    // Tolerance for matching text color luminance
+    private const val LUMINANCE_TOLERANCE = 0.2f
     
     data class FontStyle(
         val typeface: Typeface,
@@ -197,35 +207,34 @@ object FontMatcher {
      */
     private fun sampleBackgroundFromEdges(bitmap: Bitmap, rect: Rect): Int {
         val edgeColors = mutableListOf<Int>()
-        val padding = 5
         
         // Sample above the text box
-        for (x in rect.left until rect.right step 3) {
-            val y = (rect.top - padding).coerceIn(0, bitmap.height - 1)
+        for (x in rect.left until rect.right step EDGE_SAMPLE_STEP) {
+            val y = (rect.top - EDGE_SAMPLE_PADDING).coerceIn(0, bitmap.height - 1)
             if (x in 0 until bitmap.width) {
                 edgeColors.add(bitmap.getPixel(x, y))
             }
         }
         
         // Sample below the text box
-        for (x in rect.left until rect.right step 3) {
-            val y = (rect.bottom + padding).coerceIn(0, bitmap.height - 1)
+        for (x in rect.left until rect.right step EDGE_SAMPLE_STEP) {
+            val y = (rect.bottom + EDGE_SAMPLE_PADDING).coerceIn(0, bitmap.height - 1)
             if (x in 0 until bitmap.width) {
                 edgeColors.add(bitmap.getPixel(x, y))
             }
         }
         
         // Sample left of the text box
-        for (y in rect.top until rect.bottom step 3) {
-            val x = (rect.left - padding).coerceIn(0, bitmap.width - 1)
+        for (y in rect.top until rect.bottom step EDGE_SAMPLE_STEP) {
+            val x = (rect.left - EDGE_SAMPLE_PADDING).coerceIn(0, bitmap.width - 1)
             if (y in 0 until bitmap.height) {
                 edgeColors.add(bitmap.getPixel(x, y))
             }
         }
         
         // Sample right of the text box
-        for (y in rect.top until rect.bottom step 3) {
-            val x = (rect.right + padding).coerceIn(0, bitmap.width - 1)
+        for (y in rect.top until rect.bottom step EDGE_SAMPLE_STEP) {
+            val x = (rect.right + EDGE_SAMPLE_PADDING).coerceIn(0, bitmap.width - 1)
             if (y in 0 until bitmap.height) {
                 edgeColors.add(bitmap.getPixel(x, y))
             }
@@ -264,7 +273,7 @@ object FontMatcher {
                     val pixelLuminance = calculateLuminance(pixel)
                     
                     // Check if pixel is close to text color (dark for dark text)
-                    if (kotlin.math.abs(pixelLuminance - textLuminance) < 0.2f) {
+                    if (abs(pixelLuminance - textLuminance) < LUMINANCE_TOLERANCE) {
                         textPixelCount++
                     }
                     totalPixelCount++
