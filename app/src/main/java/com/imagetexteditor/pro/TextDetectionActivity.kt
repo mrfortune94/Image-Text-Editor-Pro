@@ -195,14 +195,17 @@ class TextDetectionActivity : AppCompatActivity() {
         // Set current text
         editText.setText(textBlock.text)
         
-        // Estimate font style based on bounding box
-        val estimatedSize = FontMatcher.estimateFontSize(textBlock.boundingBox.height())
-        val fontStyle = FontMatcher.matchFont(estimatedSize)
+        // Use enhanced font analysis to detect font properties from the actual image
+        val fontStyle = originalBitmap?.let { bitmap ->
+            FontMatcher.analyzeTextRegion(bitmap, textBlock.boundingBox)
+        } ?: FontMatcher.getDefaultFont()
         
-        // Apply font style to preview
+        // Apply detected font style to preview with matching colors
         fontPreview.typeface = fontStyle.typeface
         fontPreview.textSize = fontStyle.size * 0.5f  // Scale down for preview
         fontPreview.text = textBlock.text
+        fontPreview.setTextColor(fontStyle.textColor)
+        fontPreview.setBackgroundColor(fontStyle.backgroundColor)
         
         // Update preview as user types
         editText.addTextChangedListener(object : TextWatcher {
@@ -244,16 +247,16 @@ class TextDetectionActivity : AppCompatActivity() {
             val resultBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
             val canvas = Canvas(resultBitmap)
             
-            // First, cover the original text with white rectangle
+            // First, cover the original text with the detected background color
             val erasePaint = Paint().apply {
-                color = Color.WHITE
+                color = fontStyle.backgroundColor
                 style = Paint.Style.FILL
             }
             canvas.drawRect(originalTextBlock.boundingBox, erasePaint)
             
-            // Now draw the new text in the same bounding box
+            // Now draw the new text in the same bounding box with detected text color
             val textPaint = Paint().apply {
-                color = Color.BLACK
+                color = fontStyle.textColor
                 textSize = fontStyle.size
                 typeface = fontStyle.typeface
                 isAntiAlias = true
@@ -299,8 +302,20 @@ class TextDetectionActivity : AppCompatActivity() {
             removeAllText()
         }
         
+        binding.btnSaveChanges.setOnClickListener {
+            saveEditedImage()
+        }
+        
         binding.btnCancel.setOnClickListener {
             finish()
+        }
+    }
+    
+    private fun saveEditedImage() {
+        originalBitmap?.let { bitmap ->
+            saveResult(bitmap)
+        } ?: run {
+            Toast.makeText(this, "No image to save", Toast.LENGTH_SHORT).show()
         }
     }
     
@@ -309,13 +324,13 @@ class TextDetectionActivity : AppCompatActivity() {
             val resultBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
             val canvas = Canvas(resultBitmap)
             
-            val paint = Paint().apply {
-                color = Color.WHITE
-                style = Paint.Style.FILL
-            }
-            
-            // Simple inpainting: fill text areas with white
+            // Smart inpainting: fill each text area with its detected background color
             detectedTextBlocks.forEach { textBlock ->
+                val fontStyle = FontMatcher.analyzeTextRegion(bitmap, textBlock.boundingBox)
+                val paint = Paint().apply {
+                    color = fontStyle.backgroundColor
+                    style = Paint.Style.FILL
+                }
                 canvas.drawRect(textBlock.boundingBox, paint)
             }
             
