@@ -44,4 +44,4 @@ jobs:
           path: |
             app/build/outputs/apk/debug/*.apk
             app/build/outputs/apk/release/*.apk
-          if-no-files-found: warn
+          if-no-files-found: warn 
